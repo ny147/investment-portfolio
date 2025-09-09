@@ -1,20 +1,26 @@
 "use client";
 
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-} from "recharts";
-import { portfolio } from "@/lib/mockData";
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import Card from "./Card";
 
-const COLORS = ["#60A5FA", "#34D399", "#F472B6"];
+const COLORS = ["#6366F1", "#EC4899", "#10B981", "#F59E0B", "#3B82F6", "#EF4444"];
 
-export default function AssetAllocation() {
-  const data = portfolio.allocation;
+export default function AssetAllocation({ holdings }) {
+  if (!holdings || holdings.length === 0) {
+    return (
+      <Card title="Asset Allocation">
+        <p className="text-center text-gray-500 dark:text-gray-400">No holdings yet</p>
+      </Card>
+    );
+  }
+
+  const totalValue = holdings.reduce((sum, h) => sum + h.value, 0);
+
+  const data = holdings.map((h) => ({
+    name: h.name,
+    value: h.value,
+    percentage: ((h.value / totalValue) * 100).toFixed(2),
+  }));
 
   return (
     <Card title="Asset Allocation">
@@ -23,17 +29,17 @@ export default function AssetAllocation() {
           <Pie
             data={data}
             dataKey="value"
-            nameKey="type"
+            nameKey="name"
             cx="50%"
             cy="50%"
             outerRadius={100}
-            label
+            label={({ name, percentage }) => `${name}: ${percentage}%`}
           >
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            {data.map((_, index) => (
+              <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip />
+          <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
           <Legend />
         </PieChart>
       </ResponsiveContainer>
