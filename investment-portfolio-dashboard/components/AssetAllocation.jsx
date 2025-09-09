@@ -34,6 +34,9 @@ export default function AssetAllocation({ holdings }) {
             cy="50%"
             outerRadius={100}
             label={({ name, percentage }) => `${name}: ${percentage}%`}
+            isAnimationActive={true}         // ✅ enable animation
+            animationDuration={800}          // ✅ speed (ms)
+            animationEasing="ease-out"       // ✅ easing
           >
             {data.map((_, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
