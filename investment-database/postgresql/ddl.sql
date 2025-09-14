@@ -1,0 +1,44 @@
+-- Create the User table
+CREATE TABLE "User" (
+    "UserID" SERIAL PRIMARY KEY,
+    "UserName" VARCHAR(255) UNIQUE NOT NULL,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create the Asset table
+CREATE TABLE "Asset" (
+    "AssetID" SERIAL PRIMARY KEY,
+    "AssetSymbol" VARCHAR(10) UNIQUE NOT NULL,
+    "AssetType" VARCHAR(50) NOT NULL,
+    "AssetName" VARCHAR(255) NOT NULL,
+    "CurrentPrice" FLOAT NOT NULL,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create the Account table
+CREATE TABLE "Account" (
+    "AccountID" SERIAL PRIMARY KEY,
+    "UserID" INTEGER NOT NULL,
+    "AccountType" VARCHAR(50) NOT NULL,
+    "AccountName" VARCHAR(255) NOT NULL,
+    "AccountStatus" VARCHAR(50) NOT NULL,
+    "CreatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    "UpdatedAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_account_user FOREIGN KEY ("UserID") REFERENCES "User"("UserID") ON DELETE CASCADE
+);
+
+-- Create the Transaction table
+CREATE TABLE "Transaction" (
+    "TransactionID" SERIAL PRIMARY KEY,
+    "AccountID" INTEGER NOT NULL,
+    "AssetID" INTEGER NOT NULL,
+    "TransactionType" VARCHAR(50) NOT NULL,
+    "Quantity" FLOAT NOT NULL,
+    "PricePerUnit" FLOAT NOT NULL,
+    "TotalValue" FLOAT NOT NULL,
+    "created_at" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_transaction_account FOREIGN KEY ("AccountID") REFERENCES "Account"("AccountID") ON DELETE CASCADE,
+    CONSTRAINT fk_transaction_asset FOREIGN KEY ("AssetID") REFERENCES "Asset"("AssetID") ON DELETE CASCADE
+);
