@@ -80,6 +80,9 @@ export default function DashboardPage() {
     }));
   };
 
+
+  
+
   return (
     <div className="grid gap-8">
       <TotalValue holdings={updatedHoldings} />
