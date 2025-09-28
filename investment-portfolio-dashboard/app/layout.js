@@ -24,3 +24,6 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
+
+// hello world
