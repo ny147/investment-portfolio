@@ -7,7 +7,7 @@ import HoldingsList from "@/components/HoldingsList";
 import ConnectedAccounts from "@/components/ConnectedAccounts";
 import InvestmentJournal from "@/components/InvestmentJournal";
 import { portfolio } from "@/lib/mockData";
-import InvestmentJournalTable from "@/components/InvestmentJournalTable";
+
 
 
 export default function DashboardPage() {
@@ -102,12 +102,7 @@ export default function DashboardPage() {
           <ConnectedAccounts />
         </div>
       </div>
-      <InvestmentJournal
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-        journals={journals}
-        updateNoteForDate={updateNoteForDate}
-      />
+
     </div>
   );
 }
